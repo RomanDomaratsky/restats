@@ -1,1 +1,16 @@
 .env
+.idea/
+venv/
+ENV/
+env/
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.env
+**/migrations/*.py
+**/migrations/*.pyc
+!**/migrations/__init__.py
