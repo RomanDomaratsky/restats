@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block title %}Rental Price Chart{% endblock %}
+
+{% block content %}
+    <div class="container-fluid my-4">
+        <h1 class="text-center mb-4">Rental Price Chart</h1>
+        <div class="row">
+            <!-- Filter Form Column -->
+            <div class="col-md-2">
+                <form method="get" action="" class="mb-2">
+                    <div class="d-flex flex-column">
+                        <!-- District Filter -->
+                        <div class="form-group mb-3">
+                            <label>Select District:</label>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="districtDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    District
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="districtDropdown">
+                                    {% for district in districts %}
+                                        <li class="dropdown-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="district" value="{{ district }}" {% if district in selected_district %}checked{% endif %}>
+                                                <label class="form-check-label">{{ district }}</label>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Room Count Filter -->
+                        <div class="form-group mb-3">
+                            <label>Select Room Count:</label>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="roomCountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Room Count
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="roomCountDropdown">
+                                    {% for room_count in room_counts %}
+                                        <li class="dropdown-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="room_count" value="{{ room_count }}" {% if room_count in selected_room_count %}checked{% endif %}>
+                                                <label class="form-check-label">{{ room_count }}</label>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Floor Filter -->
+                        <div class="form-group mb-3">
+                            <label>Select Floor:</label>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="floorDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Floor
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="floorDropdown">
+                                    {% for floor in floors %}
+                                        <li class="dropdown-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="floor" value="{{ floor }}" {% if floor in selected_floor %}checked{% endif %}>
+                                                <label class="form-check-label">{{ floor }}</label>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Build Year Filter -->
+                        <div class="form-group mb-3">
+                            <label>Select Build Year:</label>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="buildYearDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Build Year
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="buildYearDropdown">
+                                    <li class="dropdown-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="built_year" value="{{ min_built_year }}_1960" {% if 'before_1960' in selected_built_year %}checked{% endif %}>
+                                            <label class="form-check-label">{{ min_built_year }} - 1960</label>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="built_year" value="1960_1980" {% if '1960_1980' in selected_built_year %}checked{% endif %}>
+                                            <label class="form-check-label">1960 - 1980</label>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="built_year" value="1980_1990" {% if '1980_1990' in selected_built_year %}checked{% endif %}>
+                                            <label class="form-check-label">1980 - 1990</label>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="built_year" value="1990_2000" {% if '1990_2000' in selected_built_year %}checked{% endif %}>
+                                            <label class="form-check-label">1990 - 2000</label>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="built_year" value="2000_2010" {% if '2000_2010' in selected_built_year %}checked{% endif %}>
+                                            <label class="form-check-label">2000 - 2010</label>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="built_year" value="2010_{{ max_built_year }}" {% if '2010_present' in selected_built_year %}checked{% endif %}>
+                                            <label class="form-check-label">2010 - {{ max_built_year }}</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Filter Button -->
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-primary w-100">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Chart Column -->
+            <div class="col-md-10">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <canvas id="rentalPriceChart" width="100%" height="100%"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('rentalPriceChart').getContext('2d');
+            var rentalPriceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {{ dates|safe }},
+                    datasets: [{
+                        label: 'Rental Prices',
+                        data: {{ prices|safe }},
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Price'
+                            }
+                        }
+                    }
+                }
+            });
+
+            function updateDropdownPlaceholder(dropdownId, defaultText) {
+                var dropdown = document.getElementById(dropdownId);
+                var checkboxes = dropdown.querySelectorAll('.form-check-input');
+                var selectedOptions = Array.from(checkboxes).filter(checkbox => checkbox.checked && checkbox.value);
+                var placeholderText = selectedOptions.length ? selectedOptions.map(checkbox => checkbox.nextElementSibling.innerText).join(', ') : defaultText;
+                dropdown.querySelector('.dropdown-toggle').innerText = placeholderText;
+            }
+
+            updateDropdownPlaceholder('districtDropdown', 'District');
+            updateDropdownPlaceholder('roomCountDropdown', 'Room Count');
+            updateDropdownPlaceholder('floorDropdown', 'Floor');
+            updateDropdownPlaceholder('buildYearDropdown', 'Build Year');
+
+            document.querySelectorAll('.dropdown-menu .form-check-input').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    updateDropdownPlaceholder('districtDropdown', 'District');
+                    updateDropdownPlaceholder('roomCountDropdown', 'Room Count');
+                    updateDropdownPlaceholder('floorDropdown', 'Floor');
+                    updateDropdownPlaceholder('buildYearDropdown', 'Build Year');
+                });
+            });
+        });
+    </script>
+{% endblock %}
