@@ -110,3 +110,7 @@ def rental_price_chart(request):
     }
 
     return render(request, 'rental_price_chart.html', context)
+
+
+def about_page(request):
+    return render(request, 'about_page.html')

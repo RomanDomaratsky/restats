@@ -1,0 +1,36 @@
+<!-- myapp/templates/about_page.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Welcome to Real Estate Analysis System</title>
+    </head>
+    <body>
+        <header>
+            <h1>Real Estate Analysis System</h1>
+        </header>
+
+        <section class="showcase">
+            <h1>Welcome to Our Real Estate Analysis System</h1>
+            <p>Collecting and analyzing rental price data to help you stay informed.</p>
+        </section>
+
+        <section id="main-content">
+            <div class="content-section">
+                <h2>About Our Project</h2>
+                <p>Our system is designed to collect data on rental prices from various sources, analyze this data for anomalies, and present the results in an easy-to-understand format. Users can view charts and graphs that show how rental prices change over time in different areas, helping them make informed decisions about renting or investing in real estate.</p>
+            </div>
+            <div class="content-section">
+                <h2>Meet the Developers</h2>
+                <p>We are a dedicated team of developers and data scientists committed to providing accurate and actionable insights into the real estate market. Our team includes:</p>
+                <ul>
+                    <li><strong>Developer</strong> - Roman Domaratskyi</li>
+                </ul>
+            </div>
+        </section>
+    </body>
+{% endblock %}
